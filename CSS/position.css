@@ -1,0 +1,154 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+main{
+    height: 100vh;
+    width: 170vh;
+    background-color: rgb(42, 240, 157);
+    position: relative;
+    margin: 0 150px 0 200px;
+}
+
+#white-div{
+    height: 500px;
+    width: 600px;
+    background-color: white;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    margin: 20px 0 40px 0;
+}
+
+#main-image-div{
+    height: 380px;
+    width: 300px;
+    background-color: rgb(149, 221, 32);
+    overflow: visible;
+    transform: translateX(-20%);
+    margin-right: 80px;
+    position: absolute;
+    border-radius: 5px;
+    margin-top: 30px;
+    box-shadow: 5px 5px 10px rgb(214, 212, 212)
+}
+
+#share-icon{
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+#heart-icon{
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 15px;
+    left: 260px;
+}
+
+#main-apple {
+    height: 400px;
+    width: 400px;
+    object-fit: cover;
+    position: absolute;
+    left: 30%;
+    transform: translateX(-50%);
+}
+
+#images-div{
+    height: 80px;
+    width: 300px;
+    background-color: white;
+    display: flex;
+    position: absolute;
+    top: 80%;
+    right: 60%;
+    gap: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgb(214, 212, 212)
+}
+
+#images-div img {
+    height: 50px;
+    width: 50px;
+    border: 1px solid rgb(77, 76, 76);
+    margin: 15px 0 0 10px;
+    }
+
+#text-div{
+    margin-left: 300px;
+}
+
+#text-div h1{
+    color: rgb(59, 59, 59);
+    font-size: 30px;
+    margin-bottom: 5px;
+    font-weight: 900;
+    font-size: 25px;
+    margin-top: 40px;
+}
+
+#text-div p{
+    color: rgb(245, 52, 48);
+    font-size: 20px;
+}
+
+#text-div span{
+    color: rgb(245, 52, 48);
+    font-size: 40px;
+}
+
+#text-div h6{
+    margin-bottom: 30px;
+    color: grey;
+    font-size: 15px;
+}
+
+#text-div h4{
+    color: grey;
+    font-size: 15px;
+}
+
+#text-div img{
+    height: 40px;
+    width: 40px;
+}
+
+#text-images{
+    display: flex;
+    margin-top: 20px;
+    gap: 10px;
+}
+#image-1{
+    width: 100px;
+    border: 1px solid rgb(87, 85, 85);
+    margin-bottom: 20px;
+}
+
+#text-div li{
+    color: rgb(58, 57, 57);
+}
+
+#text-div button{
+    height: 50px;
+    width: 180px;
+    background-color: rgb(245, 52, 48);
+    color: white;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 7px;
+}
+
+#text-div ul{
+    margin-top: 20px;
+}
