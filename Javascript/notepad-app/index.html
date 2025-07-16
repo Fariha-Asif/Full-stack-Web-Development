@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notepad App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen px-4 py-6">
+
+    <!-- Header -->
+    <header class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-cyan-400">Notepad App</h1>
+    </header>
+
+    <!-- Note Input Form -->
+    <section class="max-w-2xl mx-auto bg-gray-800 p-6 rounded-xl shadow-lg mb-10">
+        <form>
+        <input
+            id="notes-title"
+            type="text"
+            placeholder="Enter title"
+            required
+            class="w-full mb-4 p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+        />
+        <textarea
+            id="notes-description"
+            placeholder="Enter description"
+            rows="5"
+            required
+            class="w-full mb-4 p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+        ></textarea>
+        <button
+            type="submit"
+            class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-6 rounded-md transition duration-200"
+        >
+            Save Note
+        </button>
+        </form>
+    </section>
+
+    <!-- Notes Display Area -->
+    <section id="notes-container" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-2">
+        
+        <!-- Example Note
+        <article class="bg-gray-800 p-5 rounded-xl shadow-md transition hover:shadow-xl">
+        <h2 class="text-xl font-semibold text-cyan-400 mb-2">Note Title</h2>
+        <p class="text-gray-300 mb-4">This is a sample note description. More notes will be added dynamically.</p>
+        <div class="flex gap-3">
+            <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-1 rounded-md text-sm font-medium">Edit</button>
+            <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-md text-sm font-medium">Delete</button>
+        </div>
+        </article> -->
+    </section>
+
+    <script>
+        // selection of all things
+        let form = document.querySelector("form");
+        let title = document.getElementById("notes-title")
+        let description = document.getElementById("notes-description")
+        let notes = document.getElementById("notes-container")
+
+        // form submission logic
+        form.addEventListener("submit", (e) => {
+            e.preventDefault()
+            let notesTitle = title.value
+            let notesDescription = description.value
+
+            if(notesTitle !== "" && notesDescription !== "") {
+                let note = document.createElement("article")
+
+                 // Add Tailwind classes
+                note.className = "bg-gray-800 p-5 rounded-xl shadow-md transition hover:shadow-xl";
+
+                // Set innerHTML
+                note.innerHTML = `
+                    <h2 class="text-xl font-semibold text-cyan-400 mb-2">${notesTitle}</h2>
+                    <p class="text-gray-300 mb-4">${notesDescription}</p>
+                    <div class="flex gap-3">
+                        <button class="edit bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-1 rounded-md text-sm font-medium">Edit</button>
+                        <button class="delete bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-md text-sm font-medium">Delete</button>
+                    </div>
+                `;
+
+                // Append to container
+                notes.appendChild(note)
+
+                title.value = "";
+                description.value = "";
+
+                // functionality on delete button
+
+                let dltbtn = note.querySelector(".delete");
+                dltbtn.addEventListener("click", () => {
+                    note.remove()
+                })
+
+                // Edit button functionality (optional)
+                let editbtn = note.querySelector(".edit");
+                editbtn.addEventListener("click", () => {
+                    title.value = notesTitle;
+                    description.value = notesDescription;
+                    note.remove(); // Allow user to re-save edited version
+                });
+            }
+            else {
+                return
+            }
+
+        })
+
+    </script>
+</body>
+</html>
