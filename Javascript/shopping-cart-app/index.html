@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-6 shadow-md text-center">
+    <h1 class="text-4xl font-bold">🛒 Shopping Cart App</h1>
+    <p class="text-lg mt-2">Made by <span class="font-bold">👩🏻‍💻 Fariha-Faraz</span></p>
+  </header>
+
+  <!-- Product Listing Section -->
+  <section class="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-700">Add New Product</h2>
+    <form id="product-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="flex flex-col">
+        <label for="product-image" class="mb-1 font-medium">Upload Image</label>
+        <input type="file" id="product-image" accept="image/*" required
+               class="border border-gray-300 rounded-md p-2 bg-gray-50" />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="product-name" class="mb-1 font-medium">Product Name</label>
+        <input type="text" id="product-name" placeholder="Enter product name" required
+               class="border border-gray-300 rounded-md p-2 bg-gray-50" />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="product-price" class="mb-1 font-medium">Price</label>
+        <input type="number" id="product-price" placeholder="Enter price in PKR" required
+               class="border border-gray-300 rounded-md p-2 bg-gray-50" />
+      </div>
+
+      <div class="flex items-end">
+        <button type="submit"
+                class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-md shadow-md transition duration-300">
+          Add Product
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Product Display Section -->
+  <section id="product-list" class="max-w-4xl mx-auto mt-10 p-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- JavaScript will inject product cards here -->
+  </section>
+
+  <script>
+    let form = document.getElementById("product-form");
+    let image = document.getElementById("product-image");
+    let pName = document.getElementById("product-name");
+    let price = document.getElementById("product-price");
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        pName.value;
+        price.value;
+        image.files[0];
+
+        const reader = new FileReader();  // created fileReader object
+        reader.readAsDataURL(image.files[0]); // read image file here
+
+        reader.onload = function () {
+        const imageURL = reader.result; // image converted to URL string
+
+        // created one product card
+
+        const productCard = document.createElement("div")
+        productCard.className = "bg-white rounded-xl shadow-md p-4 flex flex-col items-center";
+
+        // Create and add the image element
+        const img = document.createElement("img");
+        img.src = imageURL;
+        img.alt = pName.value;
+        img.className = "w-32 h-32 object-cover rounded-md mb-2";
+        productCard.appendChild(img);
+        
+        //  Add product name
+        const nameElement = document.createElement("h3");
+        nameElement.textContent = pName.value;
+        nameElement.className = "text-lg font-semibold mb-1 text-center";
+        productCard.appendChild(nameElement);
+
+        // Add price
+        const priceElement = document.createElement("p");
+        priceElement.textContent = `PKR ${price.value}`;
+        priceElement.className = "text-sm text-gray-600 mb-2";
+        productCard.appendChild(priceElement);
+
+        // Add quantity control (+/- buttons)
+        const qty = document.createElement("div");
+        qty.className = "flex items-center space-x-2 mb-2";
+
+        const minusBtn = document.createElement("button");
+        minusBtn.textContent = "-";
+        minusBtn.className = "bg-red-500 text-white px-3 py-1 rounded-md";
+        
+        const qtyText = document.createElement("span");
+        qtyText.textContent = "1";
+        qtyText.className = "font-medium";
+
+        const plusBtn = document.createElement("button");
+        plusBtn.textContent = "+";
+        plusBtn.className = "bg-green-500 text-white px-3 py-1 rounded-md";
+
+        let quantity = 1;
+
+        plusBtn.addEventListener("click", () => {
+        quantity++;
+        qtyText.textContent = quantity;
+        });
+
+        minusBtn.addEventListener("click", () => {
+        if (quantity > 1) {
+            quantity--;
+            qtyText.textContent = quantity;
+        }
+        });
+
+
+        qty.appendChild(minusBtn);
+        qty.appendChild(qtyText);
+        qty.appendChild(plusBtn);
+        productCard.appendChild(qty);
+
+        
+        // Add Edit and Delete buttons
+        const actionWrapper = document.createElement("div");
+        actionWrapper.className = "flex space-x-2";
+
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.className = "bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-1 rounded-md";
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.className = "bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded-md";
+
+        // delete button functionality
+
+        deleteBtn.addEventListener("click", () => {
+        productCard.remove();
+        });
+
+        editBtn.addEventListener("click", () => {
+        // Fill form with existing data
+        pName.value = nameElement.textContent; 
+        price.value = priceElement.textContent.replace("PKR ", "");
+
+        // Remove the old product card
+        productCard.remove();
+
+        // Scroll to form for editing
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+
+
+        actionWrapper.appendChild(editBtn);
+        actionWrapper.appendChild(deleteBtn);
+        productCard.appendChild(actionWrapper);
+
+        // append the whole card to #product-list
+        document.getElementById("product-list").appendChild(productCard);
+
+        // Reset the form for next input
+        form.reset();
+
+    };
+
+    })
+  </script>
+</body>
+</html>
