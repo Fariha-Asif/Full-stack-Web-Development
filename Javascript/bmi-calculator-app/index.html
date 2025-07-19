@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BMI-Calculator-app</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-6">
+  <div class="bg-gray-800 p-8 rounded-xl shadow-xl w-full max-w-md">
+    <header class="mb-6 text-center">
+      <h1 class="text-3xl font-bold text-green-400">BMI Calculator App</h1>
+      <h2 class="text-sm mt-2">Made By <span class="text-pink-400">👩🏻‍💻 Fariha Faraz</span></h2>
+    </header>
+
+    <form id="bmiForm" class="space-y-4">
+      <input type="number" id="weight" placeholder="Enter your weight (kg)" class="w-full p-2 rounded bg-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400" required>
+
+      <input type="number" id="height" placeholder="Enter your height" class="w-full p-2 rounded bg-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400" required>
+
+      <div class="flex items-center gap-4 text-sm text-gray-300">
+        <label class="flex items-center gap-1">
+          <input type="radio" name="unit" value="cm" required> cm
+        </label>
+        <label class="flex items-center gap-1">
+          <input type="radio" name="unit" value="m"> m
+        </label>
+      </div>
+
+      <div class="flex justify-between gap-4 mt-4">
+        <button type="submit" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition">Calculate BMI</button>
+        <button type="reset" id="resetBtn" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition">Reset</button>
+      </div>
+    </form>
+
+    <section id="result" class="mt-6 text-center space-y-2 text-lg font-medium">
+      <!-- Result will appear here -->
+    </section>
+  </div>
+
+  <script>
+    let form = document.getElementById("bmiForm");
+    let resultSection = document.getElementById("result");
+    let resetBtn = document.getElementById("resetBtn");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      let weight = document.getElementById("weight").value;
+      let height = document.getElementById("height").value;
+      let unit = document.querySelector('input[name="unit"]:checked');
+
+      let w = parseFloat(weight);
+      let h = parseFloat(height);
+      let height_in_m;
+
+      if (unit.value === "cm") {
+        height_in_m = h / 100;
+      } else {
+        height_in_m = h;
+      }
+
+      let bmi = w / (height_in_m * height_in_m);
+      let roundedBMI = bmi.toFixed(2);
+
+      let category = "";
+      if (bmi < 18.5) {
+        category = "Underweight";
+      } else if (bmi >= 18.5 && bmi < 24.9) {
+        category = "Normal weight";
+      } else if (bmi >= 25 && bmi < 29.9) {
+        category = "Overweight";
+      } else {
+        category = "Obese";
+      }
+
+      resultSection.innerHTML = `
+        <p>Your BMI is: <span class="text-green-300">${roundedBMI}</span></p>
+        <p>You are classified as: <span class="text-yellow-300">${category}</span></p>
+      `;
+    });
+
+    resetBtn.addEventListener("click", () => {
+    resultSection.innerHTML = ""; // Clear result when reset
+    });
+  </script>
+</body>
+</html>

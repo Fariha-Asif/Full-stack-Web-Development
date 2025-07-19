@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Contact-App</title>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <header class="text-center py-6 bg-blue-500 text-white">
+    <h1 class="text-3xl font-bold">Contact-App</h1>
+    <h2 class="text-lg mt-2">Made By <span class="font-semibold">👨‍💻 Fariha Faraz</span></h2>
+  </header>
+
+  <main class="max-w-xl mx-auto p-4">
+    <section class="mb-6">
+      <form class="flex flex-col gap-4 bg-white shadow p-6 rounded">
+        <input type="text" name="name" id="name" placeholder="Enter your name" required
+          class="border p-2 rounded" />
+        <input type="tel" name="phone" id="phone" placeholder="Enter your phone number" required
+          class="border p-2 rounded" />
+        <div class="flex gap-4">
+          <button type="submit"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
+          <button type="reset"
+            class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <section>
+      <h3 class="text-xl font-semibold mb-2">Contacts</h3>
+      <ul id="contact-list" class="space-y-2">
+        <!-- Contacts will be displayed here -->
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    let form = document.querySelector("form");
+    let nameInput = document.getElementById("name");
+    let phoneInput = document.getElementById("phone");
+    let contactList = document.getElementById("contact-list");
+
+    let contactItem = JSON.parse(localStorage.getItem("contacts")) || [];
+    let editIndex = null; // for tracking which item to edit
+
+    function displayContacts() {
+      contactList.innerHTML = "";
+      contactItem.forEach((contact, index) => {
+        contactList.innerHTML += `
+          <li class="bg-white p-3 shadow rounded flex justify-between items-center">
+            <span>${contact.name} - ${contact.phone}</span>
+            <div class="space-x-2">
+              <button onclick="editContact(${index})" class="text-green-600 hover:underline">Edit</button>
+              <button onclick="deleteContact(${index})" class="text-red-600 hover:underline">Delete</button>
+            </div>
+          </li>`;
+      });
+    }
+
+    displayContacts();
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      let name = nameInput.value.trim();
+      let phone = phoneInput.value.trim();
+
+      const contact = {
+        name: name,
+        phone: phone,
+      };
+
+      if (editIndex !== null) {
+        contactItem[editIndex] = contact;
+        editIndex = null;
+      } else {
+        contactItem.push(contact);
+      }
+
+      localStorage.setItem("contacts", JSON.stringify(contactItem));
+      displayContacts();
+      nameInput.value = "";
+      phoneInput.value = "";
+    });
+
+    function deleteContact(index) {
+      contactItem.splice(index, 1);
+      localStorage.setItem("contacts", JSON.stringify(contactItem));
+      displayContacts();
+    }
+
+    function editContact(index) {
+      const contact = contactItem[index];
+      nameInput.value = contact.name;
+      phoneInput.value = contact.phone;
+      editIndex = index;
+    }
+  </script>
+</body>
+</html>
